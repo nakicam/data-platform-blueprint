@@ -1,0 +1,18 @@
+name: daily_platform_run
+tasks:
+  - key: ingest_files
+    type: file_ingest
+  - key: load_orders
+    type: incremental_load
+    params:
+      source: src_erp.orders
+      target: raw.orders
+      key: order_id
+      watermark_col: changed_at
+      lookback_minutes: 60
+  - key: refresh_allocation
+    type: allocation_report
+    depends_on: [load_orders]
+  - key: publish
+    type: noop
+    depends_on: [ingest_files, refresh_allocation]

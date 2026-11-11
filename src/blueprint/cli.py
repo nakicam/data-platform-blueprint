@@ -4,7 +4,7 @@ from pathlib import Path
 
 import duckdb
 
-from . import access, generate, pipeline
+from . import access, demo, generate, pipeline
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -26,6 +26,9 @@ def main() -> int:
         ).fetchall():
             print(row)
     print("\n".join(access.render(roles)))
+    with tempfile.TemporaryDirectory() as tmp:
+        res = demo.run(Path(tmp), ROOT / "jobs" / "daily.yml")
+    print("daily job:", res)
     return 0
 
 
