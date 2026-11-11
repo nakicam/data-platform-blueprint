@@ -1,0 +1,11 @@
+# Access as code: roles map to schemas. Reviewed via pull request, rendered to GRANT statements.
+roles:
+  platform_engineers:
+    raw: read
+    enriched: read
+    product: read
+  analysts:
+    product: read
+  data_stewards:
+    enriched: read
+    product: read
